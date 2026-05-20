@@ -9,7 +9,7 @@ RUN go mod download && go mod tidy
 COPY . .
 # Build static binary without cgo
 ENV CGO_ENABLED=0
-RUN go build -o /app/proxy ./proxy/main.go && chmod +x /app/proxy
+RUN go build -o /app/proxy . && chmod +x /app/proxy
 
 # Runtime stage
 FROM alpine:3.19
