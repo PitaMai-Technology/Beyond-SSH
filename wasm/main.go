@@ -21,6 +21,10 @@ func connectSSH(this js.Value, args []js.Value) any {
 	host := args[0].String()
 	user := args[1].String()
 	pass := args[2].String()
+	key := ""
+	if len(args) >= 4 {
+		key = args[3].String()
+	}
 
 	proxyURL := fmt.Sprintf("ws://localhost:8080/ssh?host=%s", host)
 	ctx := context.Background()
@@ -32,11 +36,18 @@ func connectSSH(this js.Value, args []js.Value) any {
 	netConn := websocket.NetConn(context.Background(), c, websocket.MessageBinary)
 
 	config := &ssh.ClientConfig{
-		User: user,
-		Auth: []ssh.AuthMethod{
-			ssh.Password(pass),
-		},
+		User:            user,
+		Auth:            []ssh.AuthMethod{},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	}
+	if key != "" {
+		signer, err := ssh.ParsePrivateKey([]byte(key))
+		if err != nil {
+			return fmt.Sprintf("Private key parse error: %v", err)
+		}
+		config.Auth = []ssh.AuthMethod{ssh.PublicKeys(signer)}
+	} else {
+		config.Auth = []ssh.AuthMethod{ssh.Password(pass)}
 	}
 
 	sshConn, chans, reqs, err := ssh.NewClientConn(netConn, host, config)

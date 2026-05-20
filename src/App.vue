@@ -12,6 +12,8 @@ const isAuthenticated = ref(false)
 const loginHost = ref('localhost')
 const loginUser = ref('root')
 const loginPass = ref('')
+const loginKey = ref('')
+const useKeyAuth = ref(false)
 const isLoggingIn = ref(false)
 const loginError = ref('')
 
@@ -25,7 +27,7 @@ const handleLogin = async () => {
   loginError.value = ''
   
   try {
-    const result = (window as any).connectSSH(loginHost.value, loginUser.value, loginPass.value)
+    const result = (window as any).connectSSH(loginHost.value, loginUser.value, loginPass.value, useKeyAuth.value ? loginKey.value : '')
     if (result === 'Connected') {
       isAuthenticated.value = true
     } else {
@@ -60,7 +62,10 @@ const handleLogout = () => {
 
         <v-text-field v-model="loginHost" label="Host / IP Address" variant="outlined" density="comfortable" rounded="lg" class="mb-2" prepend-inner-icon="mdi-server" hide-details="auto"></v-text-field>
         <v-text-field v-model="loginUser" label="Username" variant="outlined" density="comfortable" rounded="lg" class="mb-2 mt-4" prepend-inner-icon="mdi-account" hide-details="auto"></v-text-field>
-        <v-text-field v-model="loginPass" label="Password" type="password" variant="outlined" density="comfortable" rounded="lg" class="mb-6 mt-4" prepend-inner-icon="mdi-lock" @keyup.enter="handleLogin" hide-details="auto"></v-text-field>
+        <v-switch v-model="useKeyAuth" label="Use SSH Key Authentication" color="blue-lighten-2" class="mb-4"></v-switch>
+
+        <v-text-field v-if="!useKeyAuth" v-model="loginPass" label="Password" type="password" variant="outlined" density="comfortable" rounded="lg" class="mb-6 mt-4" prepend-inner-icon="mdi-lock" @keyup.enter="handleLogin" hide-details="auto"></v-text-field>
+        <v-textarea v-else v-model="loginKey" label="Private Key (PEM)" rows="6" variant="outlined" density="comfortable" rounded="lg" class="mb-6 mt-4" prepend-inner-icon="mdi-key" hide-details="auto"></v-textarea>
         
         <v-btn block color="blue-lighten-2" size="x-large" rounded="pill" class="font-weight-bold text-white text-none elevation-0" @click="handleLogin" :loading="isLoggingIn">
           Connect

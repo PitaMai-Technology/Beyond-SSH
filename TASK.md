@@ -15,6 +15,7 @@
 ## 3. Go WASMバックエンドモジュール
 - [x] JavaScriptから呼び出せるGo関数（`connectSSH`, `executeCommand`等）のWASMエクスポート
 - [x] `golang.org/x/crypto/ssh` を用いたSSH接続・コマンド実行ロジックの実装
+- [ ] SSH キー認証対応
 - [x] SFTPプロトコルを用いたファイル操作ロジックの実装
 - [x] ネットワーク通信制限を回避するためのプロキシ通信ロジック（またはNode.js実行環境の整備）の実装
 
