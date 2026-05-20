@@ -11,7 +11,7 @@ RUN apk add curl bash && curl -fsSL https://bun.sh/install | bash && \
 
 # Copy package files and install dependencies
 COPY package.json ./ ./wasm/
-RUN /root/.bun/bin/bun i
+RUN /root/.bun/bin/bun init && /root/.bun/bin/bun i
 
 # Copy source files
 COPY . .
