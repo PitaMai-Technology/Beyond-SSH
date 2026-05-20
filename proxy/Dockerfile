@@ -3,11 +3,13 @@ WORKDIR /app
 
 # Cache go.mod and go.sum
 COPY go.mod go.sum ./
-RUN go mod download
+RUN go mod download && go mod tidy
 
 # Copy source and build
 COPY . .
-RUN go build -o /app/proxy ./proxy/main.go
+# Build static binary without cgo
+ENV CGO_ENABLED=0
+RUN go build -o /app/proxy ./proxy/main.go && chmod +x /app/proxy
 
 # Runtime stage
 FROM alpine:3.19
