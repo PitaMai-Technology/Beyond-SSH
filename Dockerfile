@@ -10,7 +10,7 @@ RUN apk add curl bash && curl -fsSL https://bun.sh/install | bash && \
     export PATH=\"$BUN_INSTALL/bin:$PATH\"
 
 # Copy package files and install dependencies
-COPY package.json ./ ./wasm
+COPY package.json ./ ./wasm/
 RUN /root/.bun/bin/bun i
 
 # Copy source files
