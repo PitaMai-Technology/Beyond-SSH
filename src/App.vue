@@ -18,8 +18,12 @@ const isLoggingIn = ref(false)
 const loginError = ref('')
 
 const handleLogin = async () => {
-  if (!loginHost.value || !loginUser.value || !loginPass.value) {
-    loginError.value = 'Please fill all fields'
+  const missingField = !loginHost.value || !loginUser.value ||
+    (useKeyAuth.value ? !loginKey.value : !loginPass.value)
+  if (missingField) {
+    loginError.value = useKeyAuth.value
+      ? 'Please fill in host, username, and private key'
+      : 'Please fill all fields'
     return
   }
   
