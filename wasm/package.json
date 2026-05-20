@@ -1,0 +1,9 @@
+{
+  "name": "beyond-ssh-wasm",
+  "version": "1.0.0",
+  "main": "wasm_exec.js",
+  "files": [
+    "main.wasm",
+    "wasm_exec.js"
+  ]
+}
