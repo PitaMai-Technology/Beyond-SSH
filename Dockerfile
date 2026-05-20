@@ -22,6 +22,8 @@ RUN /root/.bun/bin/bun run build
 # ---------- Runtime Stage ----------
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
+# Use custom Nginx config with SPA try_files fallback
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose default HTTP port
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
