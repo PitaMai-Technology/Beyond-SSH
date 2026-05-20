@@ -5,7 +5,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Install bun (if not already in node) - use curl script
-RUN curl -fsSL https://bun.sh/install | bash && \
+RUN apk add curl bash && curl -fsSL https://bun.sh/install | bash && \
     export BUN_INSTALL=\"$HOME/.bun\" && \ 
     export PATH=\"$BUN_INSTALL/bin:$PATH\"
 
