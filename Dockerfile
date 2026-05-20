@@ -10,7 +10,7 @@ RUN apk add curl bash && curl -fsSL https://bun.sh/install | bash && \
     export PATH=\"$BUN_INSTALL/bin:$PATH\"
 
 # Copy package files and install dependencies
-COPY package.json bun.lock ./
+COPY package.json ./
 RUN /root/.bun/bin/bun install
 
 # Copy source files
