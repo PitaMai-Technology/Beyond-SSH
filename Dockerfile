@@ -11,7 +11,7 @@ RUN apk add curl bash && curl -fsSL https://bun.sh/install | bash && \
 
 # Copy package files and install dependencies
 COPY package.json bun.lock ./
-RUN /root/.bun/bin/bun install --frozen-lockfile
+RUN /root/.bun/bin/bun install
 
 # Copy source files
 COPY . .
